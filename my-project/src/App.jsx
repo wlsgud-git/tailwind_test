@@ -1,8 +1,34 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { ProgressBox } from "./component/progressBox"
 
 
 function App() {
-  // let [do, setDo] = useState([])/
+  let [tasks, setTasks] = useState([
+    {
+      task : "Design landing Page",
+      category : "Design",
+      completed : true
+    },
+    {
+      task : "Build React components",
+      category : "Development",
+      completed : false
+    },
+    {
+      task : "Write project documentation",
+      category : "Writing",
+      completed : false
+    },{
+      task : "Review UI desugns",
+      category : "Design",
+      completed : true
+    }
+  ])
+
+  useEffect(()=> {
+    console.log(Math.ceil( tasks.filter(val => val.completed) / tasks.length ))
+  }, [tasks])
+
   return (
     <div className="w-screen h-screen bg-slate-100 flex flex-col items-center p-2">
       {/* header */}
@@ -22,12 +48,23 @@ function App() {
         </div>
         {/* 내 할일 개수  */}
         <div className="doing_box flex flex-col">
-          <span>오늘도 적은 목표부터 시작해 봐요.</span>
-          <div className="complete_box"></div>
+          <span className="font-thin text-sm text-gray-600">오늘도 적은 목표부터 시작해 봐요.</span>
+          <div className="complete_box flex">
+            <ProgressBox count={tasks.length} type={"total"} />
+            <ProgressBox count={tasks.filter(val=> val.completed).length} type={"completed"} />
+          </div>
         </div>
         {/* 내 할일 진행률 */}
         <div className="progressing_box flex flex-col">
-          
+          {/* 진행률 텍스트 */}
+          <div className="progress_text flex justify-between">
+            <span className="font-bold">Today's Progress</span>
+            <span className="font-bold">{Math.ceil( tasks.filter(val => val.completed) / tasks.length )}%</span>
+          </div>
+          {/* 진행률 바 */}
+          <div className="progress_bar rounded-lg w-full h-[10px] overflow-hidden border border-purple-500">
+            <div className="bg-purple-500 h-full rounded-lg" style={{width: `${Math.ceil(( tasks.filter(val=> val.completed) / tasks.length) * 100)}%`}}></div>
+          </div>
         </div>
       </div>
       
