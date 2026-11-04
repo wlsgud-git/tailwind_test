@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { ProgressBox } from "./component/progressBox"
 
 
@@ -24,11 +24,6 @@ function App() {
       completed : true
     }
   ])
-
-  useEffect(()=> {
-    console.log(Math.ceil( tasks.filter(val => val.completed) / tasks.length ))
-  }, [tasks])
-
   return (
     <div className="w-screen h-screen bg-slate-100 flex flex-col items-center p-2">
       {/* header */}
@@ -59,11 +54,11 @@ function App() {
           {/* 진행률 텍스트 */}
           <div className="progress_text flex justify-between">
             <span className="font-bold">Today's Progress</span>
-            <span className="font-bold">{Math.ceil( tasks.filter(val => val.completed) / tasks.length )}%</span>
+            <span className="font-bold">{Math.ceil( (tasks.filter(val=> val.completed).length  / tasks.length) * 100 )}%</span>
           </div>
           {/* 진행률 바 */}
           <div className="progress_bar rounded-lg w-full h-[10px] overflow-hidden border border-purple-500">
-            <div className="bg-purple-500 h-full rounded-lg" style={{width: `${Math.ceil(( tasks.filter(val=> val.completed) / tasks.length) * 100)}%`}}></div>
+            <div className="bg-purple-500 h-full rounded-lg" style={{width: `${Math.ceil(( tasks.filter(val=> val.completed).length / tasks.length) * 100)}%`}}></div>
           </div>
         </div>
       </div>
